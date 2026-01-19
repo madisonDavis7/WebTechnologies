@@ -1,6 +1,21 @@
 body {
-    background-color: pink;
+    background-image: linear-gradient(#f19ced, #dd2fc0);
     color: black;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    font-size: 22px;
+}
+
+.body-cont {
+    width: 80%;
+    height: 90%;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
 }
