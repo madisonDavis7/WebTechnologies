@@ -1,15 +1,22 @@
-## Week 2 Homework 
+## Week 2 Homework Due 1/26
 
 **Assignment:**
-To create a basic landing page for our site. Make use to standard HTML structuring and CSS styles. 
+bBuild a single-page (nothing too extensive), static site that briefly describes you and a memory you have around playing games (online or in-person).
 
-**Reflection**
+**Requirements**
+- be responsive and use RWD principles
+- optional: add parallax scrolling
+- optional: hero image
 
-1. Which tag controls content?
-    - The <body> tag controls what content will be on the page. Everything that users see will be within the body.
+- main theme
+- info section
+  - skills, inspiration, projects
+- additional section: escribes something about you/your interests and a memory of playing a game
 
-2. Which part controls style?
-    - The css for styling can either be put in the header with a <style> tag, or can be put in a css file and linked using a <link> tag. 
-
-3. What was one thing you changed that had a big visual impact?
-     - Adding the background color and having everything center aligned made it look much more appealing and modern to me. Having color and structure makes a page more interesting and eye catching. 
+**File Structure**
+- week 2
+  - images
+      - image 1
+  - README.md
+  - styles.css
+  
