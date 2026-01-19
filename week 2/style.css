@@ -1,0 +1,251 @@
+
+body {
+    background-color: black;
+}
+
+h2 {
+    font-size: 40px;
+}
+
+.intro-sect {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 10vh;
+}
+
+.hero-cont {
+    width: 90%;
+    height: 70vh;
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    filter: brightness(0.9);
+}
+
+.hero-cont::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/hero-img.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(4px);
+    filter: grayscale(30%);
+    z-index: -1;
+}
+
+.hero-cont h1 {
+    font-size: 70px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+    color: rgb(0, 0, 0);
+}
+
+.about-sect {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    width: 80%;
+    margin: auto;
+    height: 60vh;
+}
+
+
+.about-cont p {
+    font-size: 24px;
+    line-height: 1.6;
+}
+
+.row-cont {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.row-cont h3 {
+    font-size: 36px;
+}
+
+.row-cont li {
+    list-style: none;
+    font-size: 22px;
+    line-height: 1.7;
+    align-self: center;
+    justify-content: center;
+}
+
+.col-cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.col-cont ul {
+    padding-left: 0;
+    margin: 0;
+}
+
+.minecraft-sect {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin: auto;
+    height: 60vh;
+}
+
+.minecraft-cont {
+    width: 100%;
+    color: white;
+    font-size: 20px;
+    padding: 20px;
+    text-align: center;
+    margin-left: 40px;
+}
+
+.minecraft-cont p {
+    line-height: 1.5;
+}
+
+.minecraft-img-cont {
+    width: 50%;
+    height: 70%;
+    border-radius: 40px;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+.memory-sect {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    height: 40vh;
+    margin: auto;
+    color: white;
+}
+
+.memory-sect p {
+    font-size: 20px;
+    text-align: center;
+    line-height: 1.5;
+}
+
+
+/* Responsive Stuff */
+@media (max-width: 1024px) {
+    .hero-cont {
+        height: 50vh;
+    }
+    
+    .hero-cont h1 {
+        font-size: 48px;
+    }
+    
+    .about-sect,
+    .minecraft-sect,
+    .memory-sect {
+        height: auto;
+        padding: 30px 0;
+    }
+    
+    .row-cont {
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+    
+    .col-cont {
+        min-width: 200px;
+    }
+    
+    .minecraft-sect {
+        flex-direction: column;
+    }
+    
+    .minecraft-img-cont {
+        width: 100%;
+        height: 300px;
+        margin-bottom: 20px;
+    }
+    
+    .minecraft-cont {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    h2 {
+        font-size: 28px;
+    }
+    
+    .hero-cont h1 {
+        font-size: 36px;
+    }
+    
+    .row-cont h3 {
+        font-size: 24px;
+    }
+    
+    .row-cont li {
+        font-size: 18px;
+    }
+    
+    .about-cont p,
+    .minecraft-cont p {
+        font-size: 18px;
+    }
+    
+    .minecraft-img-cont {
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .intro-sect {
+        margin-top: 5vh;
+    }
+    
+    .hero-cont {
+        height: 35vh;
+        width: 95%;
+    }
+    
+    .hero-cont h1 {
+        font-size: 24px;
+    }
+    
+    .about-sect,
+    .minecraft-sect,
+    .memory-sect {
+        width: 95%;
+    }
+    
+    .row-cont {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .minecraft-img-cont {
+        height: 200px;
+    }
+}
