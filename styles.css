@@ -6,7 +6,6 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    height: 100vh;
     font-size: 22px;
 }
 
@@ -44,7 +43,7 @@ a {
     font-weight: bold;
 }
 
-.interests-sect{
+.interests-sect {
     width: 80%;
     margin: auto;
 }
@@ -101,6 +100,7 @@ ul {
 .hw-list a {
     color: inherit;
 }
+
 .hw-list a:hover {
     color: inherit;
 }
