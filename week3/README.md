@@ -1,4 +1,4 @@
-## Homeowrk 3
+## Homework 3
 
 **Summary**
 I copied the assignment and fed it into the Ecosia AI model to see what it would create. Then I compared what I had created to what AI cae up with. 
@@ -14,5 +14,6 @@ structured differently, in a numbered list style instead of havig all three favo
 * I would not rely on this because it lacks the creativity I wanted for the page. I think there were some good ideas for structuring my logs but I prefer my own desgns in terms of page aesthetic.
 * Yes I could understand what code was written and what each part did.
 * If I added some more specifications it could feel more like my work but would still not be nearl as satisfying as coming up with my ow ideas and implementing those.
+
 
 
