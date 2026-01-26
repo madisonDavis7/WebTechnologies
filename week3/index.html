@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 3 Homework</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .img-cont {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            width: 80%;
+            height: 50vh;
+            justify-content: center;
+            padding-top: 10vh;
+        }
+        .img-wrapper {
+            position: relative;
+            width: 30vw;
+        }
+        .img-box {
+            width: 30vw;
+            height: 30vh;
+            object-fit: cover;
+            border-radius: 20px;
+            transition: all 0.3s ease-in-out;
+            display: block;
+        }
+        .img-wrapper:hover .img-box {
+            transform: scale(1.1);
+            filter: blur(2px);
+        }
+        .img-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            pointer-events: none;
+        }
+        .img-wrapper:hover .img-text {
+            opacity: 1;
+        }
+        .btn-cont {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .btn {
+            width: auto;
+            min-height: 40px;
+            font-size: 24px;
+            border-radius: 15px;
+            border: none;
+            padding: 10px;
+            transition: ease-in-out 0.4s;
+        }
+        .btn:hover {
+            cursor: pointer;
+            background-color: #050c31;
+            color: white;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Homework 3</h1>
+    <h2>My top 3 favorite artists right now</h2>
+    <div class="img-cont">
+        <div class="img-wrapper">
+            <img class="img-box" src="images/halsey.jpg" alt="Halsey">
+            <div class="img-text">Halsey</div>
+        </div>
+        <div class="img-wrapper">
+            <img class="img-box" src="images/ashniko.webp" alt="Ashniko">
+            <div class="img-text">Ashniko</div>
+        </div>
+        <div class="img-wrapper">
+            <img class="img-box" src="images/the weekend.webp" alt="The Weeknd">
+            <div class="img-text">The Weeknd</div>
+        </div>
+    </div>
+    <div class="btn-cont">
+        <button class="btn" id="fav-website">My favorite websites</button>
+        <button class="btn" id="games">My favorite Games</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
