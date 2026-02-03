@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Own Adventure</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="start-page">
+        <h1>Welcome to the Adventure</h1>
+        <h3>To play this game you will be prompted to maeke choices, based on your choices your future
+        options will differ. Enjoy!
+        </h3>
+        <div class="btn-cont">
+            <button class="button" id="start-btn">Begin Adventure</button>
+        </div>
+    </div>
+    <div id="second-page">
+        <h1>Where do you wish to go?</h1>
+        <div class="img-cont">
+            <div class="img-col">
+                <img src="images/choice1-left.jpg" class="img" id="choice1-left">
+                <button class="btn" id="left-btn">Castle</button>
+            </div>
+            <div class="img-col">
+                <img src="images/choice1-right.jpg" class="img" id="choice1-right">
+                <button class="btn" id="right-btn">Lighthouse</button>
+            </div>
+        </div>
+    </div>
+    <div id="castle-page">
+        <h1>Who will you find along the way?</h1>
+        <div class="img-cont">
+            <div class="img-col">
+                <img src="images/choice2-left.jpg" class="img" id="choice2-left">
+                <button class="btn" id="castle-left-btn">White Horse</button>
+            </div>
+            <div class="img-col">
+                <img src="images/choice2-right.jpg" class="img" id="choice2-right">
+                <button class="btn" id="castle-right-btn">Black Horse</button>
+            </div>
+        </div>
+    </div>
+    <div id="lighthouse-page">
+        <h1>Who will accompany you on your journey?</h1>
+        <div class="img-cont">
+            <div class="img-col">
+                <img src="images/choice3-left.jpg" class="img" id="choice3-left">
+                <button class="btn" id="lighthouse-left-btn">Dog</button>
+            </div>
+            <div class="img-col">
+                <img src="images/choice3-right.jpg" class="img" id="choice3-right">
+                <button class="btn" id="lighthouse-right-btn">Cat</button>
+            </div>
+        </div>
+    </div>
+    <div id="horse-page">
+        <h1>As you ride along you come across a fork in the road. Which way do you go?</h1>
+        <div class="img-cont">
+            <div class="img-col">
+                <img src="images/choice4-left.jpg" class="img" id="choice4-left">
+                <button class="btn" id="horse-left-btn">Forest</button>
+            </div>
+            <div class="img-col">
+                <img src="images/choice4-right.jpg" class="img" id="choice4-right">
+                <button class="btn" id="horse-right-btn">River</button>
+            </div>
+        </div>
+    </div>
+    <div id="forest-page">
+        <h1>After a long journey you and your steed have reached the castle.</h1>
+        <div class="img-cont-done">
+            <div>
+                <img src="images/choice6-done.jpg" class="img-done" id="choice6-done">
+            </div>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
