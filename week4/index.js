@@ -10,6 +10,9 @@ const forestPage = document.getElementById('forest-page');
 const lighthousePage = document.getElementById('lighthouse-page');
 const bridgePage = document.getElementById('bridge-page');
 const bridgePageEnd = document.getElementById('bridge-page-end');
+const dogPage = document.getElementById('dog-page');
+const dogPageEnd = document.getElementById('dog-page-end');
+const whalePageEnd = document.getElementById('whale-page-end');
 
 const leftButton = document.getElementById('left-btn');
 const rightButton = document.getElementById('right-btn');
@@ -18,6 +21,10 @@ const horseLeftButton = document.getElementById('horse-left-btn');
 const castleRightButton = document.getElementById('castle-right-btn');
 const bridgeLeftButton = document.getElementById('bridge-left-btn');
 const bridgeRightButton = document.getElementById('bridge-right-btn');
+const dogLeftButton = document.getElementById('dog-left-btn');
+const dogRightButton = document.getElementById('dog-right-btn');
+const lighthouseLeftButton = document.getElementById('lighthouse-left-btn');
+const lighthouseRightButton = document.getElementById('lighthouse-right-btn');
 
 let currentPage = 'second-page';
 
@@ -89,5 +96,29 @@ bridgeRightButton.addEventListener('click', function() {
     bridgePageEnd.style.display = 'block';
     currentPage = 'bridge-page-end';
 });
+
+lighthouseLeftButton.addEventListener('click', function() {
+    console.log("A wise choice. The dog jumps around you happily.");
+    lighthousePage.style.display = 'none';
+    console.log("With your new companion jumping around you gaze out to the ocean...")
+    dogPage.style.display = 'block';
+    currentPage = 'dog-page';
+});
+
+dogLeftButton.addEventListener('click', function() {
+    console.log("You see something out there...it looks like a ship");
+    dogPage.style.display = 'none';
+    dogPageEnd.style.display = 'block';
+    currentPage = 'dog-page-end';
+});
+
+dogRightButton.addEventListener('click', function() {
+    console.log("The cat follows behind you, weaving between your legs as you walk as you look out to sea...");
+    dogPage.style.display = 'none';
+    console.log("You suddenly notice more whales popping up out of the water. ")
+    whalePageEnd.style.display = 'block';
+    currentPage = 'whale-page-end';
+});
+
 
 
