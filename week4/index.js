@@ -8,11 +8,16 @@ const castlePage = document.getElementById('castle-page');
 const horsePage = document.getElementById('horse-page');
 const forestPage = document.getElementById('forest-page');
 const lighthousePage = document.getElementById('lighthouse-page');
+const bridgePage = document.getElementById('bridge-page');
+const bridgePageEnd = document.getElementById('bridge-page-end');
 
 const leftButton = document.getElementById('left-btn');
 const rightButton = document.getElementById('right-btn');
 const castleLeftButton = document.getElementById('castle-left-btn');
 const horseLeftButton = document.getElementById('horse-left-btn');
+const castleRightButton = document.getElementById('castle-right-btn');
+const bridgeLeftButton = document.getElementById('bridge-left-btn');
+const bridgeRightButton = document.getElementById('bridge-right-btn');
 
 let currentPage = 'second-page';
 
@@ -52,6 +57,13 @@ horseLeftButton.addEventListener('click', function() {
     currentPage = 'forest-page';
 });
 
+bridgeLeftButton.addEventListener('click', function() {
+    console.log("You chose to go back into the forest, the way will be longer...");
+    bridgePage.style.display = 'none';
+    bridgePageEnd.style.display = 'block';
+    currentPage = 'bridge-page-end';
+});
+
 rightButton.addEventListener('click', function() {
     const currentButtonText = this.textContent;
     if (currentButtonText === 'Lighthouse') {
@@ -61,6 +73,21 @@ rightButton.addEventListener('click', function() {
         lighthousePage.style.display = 'block';
         currentPage = 'lighthouse-page';
     }
+});
+
+castleRightButton.addEventListener('click', function() {
+    console.log("You chose the black stallion, an honorable companion.")
+    console.log("You come across a bridge, do you cross or continue on through the forest?")
+    castlePage.style.display = 'none';
+    bridgePage.style.display = 'block';
+    currentPage = 'bridge-page';
+});
+
+bridgeRightButton.addEventListener('click', function() {
+    console.log("You decide to cross the bridge and see where it takes you...");
+    bridgePage.style.display = 'none';
+    bridgePageEnd.style.display = 'block';
+    currentPage = 'bridge-page-end';
 });
 
 

@@ -107,24 +107,24 @@ content: '';
 }
 
 /* second page */
-#second-page, #castle-page, #lighthouse-page, #horse-page, #forest-page {
+#second-page, #castle-page, #lighthouse-page, #horse-page, #forest-page, #bridge-page, #bridge-page-end {
     display: none;
 }
 
 .img-cont {
-    width: 60%;
+    width: auto;
+    height: 50vh;
     margin: auto;
     justify-content: center;
     display: flex;
     gap: 60px;
     align-items: center;
-    height: 20vh;
-    margin-top: 20vh;
+    margin-top: 15vh;
 }
 
 .img {
-    width: 400px;
-    height: 400px;
+    width: 30vw;
+    height: 40vh;
     border-radius: 15px;
     object-fit: cover;
     transition: ease-in-out 0.3s;
@@ -160,18 +160,18 @@ content: '';
 }
 
 .img-cont-done {
-    width: 60%;
+    width: 40vw;
     margin: auto;
     justify-content: center;
     display: flex;
     align-items: center;
     height: 20vh;
-    margin-top: 30vh;
+    margin-top: 35vh;
 }
 
 .img-done {
-    width: 1000px;
-    height: 600px;
+    width: 40vw;
+    height: 60vh;
     border-radius: 15px;
     object-fit: cover;
 }
