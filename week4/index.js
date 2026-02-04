@@ -13,6 +13,7 @@ const bridgePageEnd = document.getElementById('bridge-page-end');
 const dogPage = document.getElementById('dog-page');
 const dogPageEnd = document.getElementById('dog-page-end');
 const whalePageEnd = document.getElementById('whale-page-end');
+const catPageEnd = document.getElementById('cat-page-end');
 
 const leftButton = document.getElementById('left-btn');
 const rightButton = document.getElementById('right-btn');
@@ -118,6 +119,13 @@ dogRightButton.addEventListener('click', function() {
     console.log("You suddenly notice more whales popping up out of the water. ")
     whalePageEnd.style.display = 'block';
     currentPage = 'whale-page-end';
+});
+
+lighthouseRightButton.addEventListener('click', function() {
+    console.log("You continue to walk home, enjoying the breeze and salt in the air. ");
+    lighthousePage.style.display = 'none';
+    catPageEnd.style.display = 'block';
+    currentPage = 'cat-page-end';
 });
 
 

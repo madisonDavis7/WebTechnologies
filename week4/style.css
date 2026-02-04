@@ -109,7 +109,7 @@ content: '';
 /* second page */
 #second-page, #castle-page, #lighthouse-page, #horse-page, 
 #forest-page, #bridge-page, #bridge-page-end, #dog-page,
-#dog-page-end, #whale-page-end {
+#dog-page-end, #whale-page-end, #cat-page-end {
     display: none;
 }
 
