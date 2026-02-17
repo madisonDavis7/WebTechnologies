@@ -100,6 +100,20 @@
         <p class="error" id="lighthouse-error" aria-live="polite"></p>
     </div>
 
+    <div id="scene-beach" class="scene hidden">
+        <h1>The Journey</h1>
+        <div class="img-cont">
+            <img class="img" src="images/lighthouse-beach.jpg" alt="A peaceful beach">
+            <img class="img" src="images/lighthouse-lighthouse.jpg" alt="An alluring lighthouse">
+        </div>
+        <p class="prompt">Type <strong>beach</strong> or <strong>lighthouse</strong>.</p>
+        <div class="input-row">
+            <input type="text" id="lighthouse-input-beach" placeholder="beach or lighthouse" autocomplete="off">
+            <button class="btn" id="lighthouse-btn-beach">Submit</button>
+        </div>
+        <p class="error" id="lighthouse-error-beach" aria-live="polite"></p>
+    </div>
+
     <div id="scene-end-book" class="scene hidden">
         <div class="img-cont">
             <img class="img" src="images/castle-window.jpg" alt="A castle window">
@@ -157,6 +171,26 @@
         <p class="prompt" id="end-text-rocks"></p>
         <div class="btn-cont">
             <button class="button" id="restart-btn-rocks">Play Again</button>
+        </div>
+    </div>
+
+    <div id="scene-end-beach" class="scene hidden">
+        <div class="img-cont">
+            <img class="img" src="images/lighthouse-sunset.jpg" alt="A rough sea">
+        </div>
+        <p class="prompt" id="end-text-beach"></p>
+        <div class="btn-cont">
+            <button class="button" id="restart-btn-beach">Play Again</button>
+        </div>
+    </div>
+
+    <div id="scene-end-lighthouse" class="scene hidden">
+        <div class="img-cont">
+            <img class="img" src="images/lighthouse-door.jpg" alt="A rough sea">
+        </div>
+        <p class="prompt" id="end-text-lighthouse"></p>
+        <div class="btn-cont">
+            <button class="button" id="restart-btn-lighthouse">Play Again</button>
         </div>
     </div>
 

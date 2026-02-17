@@ -6,12 +6,15 @@ const scenes = {
 	castleLibrary: document.getElementById("scene-library"),
 	castleKitchen: document.getElementById("scene-kitchen"),
 	lighthouse: document.getElementById("scene-lighthouse"),
+	beach: document.getElementById("scene-beach"),
 	endBook: document.getElementById("scene-end-book"),
 	endChair: document.getElementById("scene-end-chair"),
 	endStove: document.getElementById("scene-end-stove"),  
 	endTable: document.getElementById("scene-end-table"),
 	endLeave: document.getElementById("scene-end-leave"),
-	endRocks: document.getElementById("scene-end-rocks")
+	endRocks: document.getElementById("scene-end-rocks"),
+	endBeach: document.getElementById("scene-end-beach"),
+	endLighthouse: document.getElementById("scene-end-lighthouse"),
 };
 
 const startBtn = document.getElementById("start-btn");
@@ -39,19 +42,27 @@ const lighthouseInput = document.getElementById("lighthouse-input");
 const lighthouseBtn = document.getElementById("lighthouse-btn");
 const lighthouseError = document.getElementById("lighthouse-error");
 
+const lighthouseBeachInput = document.getElementById("lighthouse-input-beach");
+const lighthouseBeachBtn = document.getElementById("lighthouse-btn-beach");
+const lighthouseBeachError = document.getElementById("lighthouse-error-beach");
+
 const endTextBook = document.getElementById("end-text-book");
 const endTextChair = document.getElementById("end-text-chair");
 const endTextStove = document.getElementById("end-text-stove");
 const endTextTable = document.getElementById("end-text-table");
 const endTextLeave = document.getElementById("end-text-leave");
 const endTextRocks = document.getElementById("end-text-rocks");
-
+const endTextBeach = document.getElementById("end-text-beach");
+const endTextLighthouse = document.getElementById("end-text-lighthouse");
+	
 const restartBtnBook = document.getElementById("restart-btn-book");
 const restartBtnChair = document.getElementById("restart-btn-chair");
 const restartBtnStove = document.getElementById("restart-btn-stove");
 const restartBtnTable = document.getElementById("restart-btn-table");
 const restartBtnLeave = document.getElementById("restart-btn-leave");
 const restartBtnRocks = document.getElementById("restart-btn-rocks");
+const restartBtnBeach = document.getElementById("restart-btn-beach");
+const restartBtnLighthouse = document.getElementById("restart-btn-lighthouse");
 
 
 const normalize = (value) => value.trim().toLowerCase();
@@ -89,6 +100,16 @@ const showEndingLeave = (text) => {
 const showEndingRocks = (text) => {
 	endTextRocks.textContent = text;
 	showScene("endRocks");
+};
+
+const showEndingBeach = (text) => {
+	endTextBeach.textContent = text;
+	showScene("endBeach");
+};
+
+const showEndingLighthouse = (text) => {
+	endTextLighthouse.textContent = text;
+	showScene("endLighthouse");
 };
 
 const handleScene1 = () => {
@@ -196,13 +217,30 @@ const handleLighthouse = () => {
 			);
 			break;
 		case "sand":
-			showEndingRocks(
-				"You walk along the sand until the tide pulls you into a calm drift."
-			);
+				showScene("beach");
+				lighthouseBeachInput.focus();
 			break;
 		default:
 			lighthouseError.textContent = "Please type rocks or sand.";
 			return "Invalid Text";
+	}
+};
+
+const handleLighthouseBeach = () => {
+	const choice = normalize(lighthouseBeachInput.value);
+	lighthouseBeachError.textContent = "";
+
+	if (choice === "beach") {
+		showEndingBeach(
+			"You relax on the warm sand as the sun dips below the horizon."
+		);
+	} else if (choice === "lighthouse") {
+		showEndingLighthouse(
+			"You head to the distant lighthouse and find refuge from the sun."
+		);
+	} else {
+		lighthouseBeachError.textContent = "Please type beach or lighthouse.";
+		return "Invalid Text";
 	}
 };
 
@@ -255,6 +293,13 @@ lighthouseInput.addEventListener("keydown", (event) => {
 	}
 });
 
+lighthouseBeachBtn.addEventListener("click", handleLighthouseBeach);
+lighthouseBeachInput.addEventListener("keydown", (event) => {
+	if (event.key === "Enter") {
+		handleLighthouseBeach();
+	}
+});
+
 
 const restartGame = () => {
 	scene1Input.value = "";
@@ -263,6 +308,7 @@ const restartGame = () => {
 	castleLibraryInput.value = "";
 	castleKitchenInput.value = "";  
 	lighthouseInput.value = "";
+	lighthouseBeachInput.value = "";
 	scene1Error.textContent = "";
 	castleError.textContent = "";
 	castleInsideError.textContent = "";
@@ -275,6 +321,7 @@ const restartGame = () => {
 	endTextTable.textContent = "";
 	endTextRocks.textContent = "";
 	endTextLeave.textContent = ""; 
+	endTextBeach.textContent = "";
 	showScene("start");
 };
 
@@ -284,3 +331,5 @@ restartBtnStove.addEventListener("click", restartGame);
 restartBtnTable.addEventListener("click", restartGame);
 restartBtnLeave.addEventListener("click", restartGame);
 restartBtnRocks.addEventListener("click", restartGame);
+restartBtnLighthouse.addEventListener("click", restartGame);
+restartBtnBeach.addEventListener("click", restartGame);
