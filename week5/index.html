@@ -33,8 +33,8 @@
     <div id="scene-castle" class="scene hidden">
         <h1>The Castle Gate</h1>
         <div class="img-cont">
-            <img class="img" src="images/castle-gate.jpg" alt="A stone gate">
-            <img class="img" src="images/castle-leave.jpg" alt="A misty forest">
+            <img class="img" src="images/castle-gate.jpg" alt="A stone castle gate">
+            <img class="img" src="https://images.unsplash.com/photo-1482192596544-9eb780fc7f66?auto=format&fit=crop&w=800&q=80" alt="Old iron gate in fog">
         </div>
         <p class="prompt">Type <strong>enter</strong> or <strong>leave</strong>.</p>
         <div class="input-row">
@@ -44,8 +44,8 @@
         <p class="error" id="castle-error" aria-live="polite"></p>
     </div>
 
-    <div id="scene-castle-inside" class="scene hidden">
-        <h1>The Inner Castle</h1>
+    <div id="scene-inside" class="scene hidden">
+        <h1>The Inside of the Castle</h1>
         <div class="img-cont">
             <img class="img" src="images/castle-library.jpg" alt="An old library">
             <img class="img" src="images/castle-kitchen.jpg" alt="A dusty kitchen">
@@ -58,11 +58,11 @@
         <p class="error" id="castleInside-error" aria-live="polite"></p>
     </div>
 
-    <div id="scene-castle-library" class="scene hidden">
-        <h1>The Library</h1>
+    <div id="scene-library" class="scene hidden">
+        <h1>The Inside of the Castle</h1>
         <div class="img-cont">
             <img class="img" src="images/castle-book.jpg" alt="An old book">
-            <img class="img" src="images/castle-chair.jpg" alt="A comfy chair">
+            <img class="img" src="images/castle-chair.jpg" alt="A comfortable chair">
         </div>
         <p class="prompt">Type <strong>book</strong> or <strong>chair</strong>.</p>
         <div class="input-row">
@@ -72,11 +72,11 @@
         <p class="error" id="castleLibrary-error" aria-live="polite"></p>
     </div>
 
-    <div id="scene-castle-kitchen" class="scene hidden">
-        <h1>The Kitchen</h1>
+    <div id="scene-kitchen" class="scene hidden">
+        <h1>The Castle's Kitchen</h1>
         <div class="img-cont">
-            <img class="img" src="images/castle-stove.jpg" alt="A dusty kitchen">
-            <img class="img" src="images/castle-table.jpg" alt="A dining table">
+            <img class="img" src="images/castle-stove.jpg" alt="An old stove">
+            <img class="img" src="images/castle-table.jpg" alt="A cluttered table">
         </div>
         <p class="prompt">Type <strong>stove</strong> or <strong>table</strong>.</p>
         <div class="input-row">
@@ -87,23 +87,22 @@
     </div>
 
     <div id="scene-lighthouse" class="scene hidden">
-        <h1>The Lighthouse Cliff</h1>
+        <h1>The Journey</h1>
         <div class="img-cont">
-            <img class="img" src="images/castle-book.jpg" alt="Waves crashing against cliffs">
-            <img class="img" src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=800&q=80" alt="A lighthouse beam at night">
+            <img class="img" src="images/lighthouse-rocks.jpg" alt="Waves crashing against rocks">
+            <img class="img" src="images/lighthouse-sand.jpg" alt="A calm beach">
         </div>
-        <p class="prompt">Type <strong>climb</strong> or <strong>inspect</strong>.</p>
+        <p class="prompt">Type <strong>rocks</strong> or <strong>sand</strong>.</p>
         <div class="input-row">
-            <input type="text" id="lighthouse-input" placeholder="climb or inspect" autocomplete="off">
+            <input type="text" id="lighthouse-input" placeholder="rocks or sand" autocomplete="off">
             <button class="btn" id="lighthouse-btn">Submit</button>
         </div>
         <p class="error" id="lighthouse-error" aria-live="polite"></p>
     </div>
 
     <div id="scene-end-book" class="scene hidden">
-        <h1 id="end-title-book">The Story Ends</h1>
         <div class="img-cont">
-            <img class="img" src="images/castle-window.jpg" alt="A serene view from a window">
+            <img class="img" src="images/castle-window.jpg" alt="A castle window">
         </div>
         <p class="prompt" id="end-text-book"></p>
         <div class="btn-cont">
@@ -112,9 +111,8 @@
     </div>
 
     <div id="scene-end-chair" class="scene hidden">
-        <h1 id="end-title-chair">The Story Ends</h1>
         <div class="img-cont">
-            <img class="img" src="images/castle-night.jpg" alt="A calming night sky">
+            <img class="img" src="images/castle-night.jpg" alt="A castle window">
         </div>
         <p class="prompt" id="end-text-chair"></p>
         <div class="btn-cont">
@@ -122,25 +120,33 @@
         </div>
     </div>
 
-    <div id="scene-end-soup" class="scene hidden">
-        <h1 id="end-title-soup">The Story Ends</h1>
+    <div id="scene-end-stove" class="scene hidden">
         <div class="img-cont">
-            <img class="img" src="images/castle-soup.jpg" alt="A bowl of soup">
+            <img class="img" src="images/castle-soup.jpg" alt="A castle window">
         </div>
-        <p class="prompt" id="end-text-soup"></p>
+        <p class="prompt" id="end-text-stove"></p>
         <div class="btn-cont">
-            <button class="button" id="restart-btn-soup">Play Again</button>
+            <button class="button" id="restart-btn-stove">Play Again</button>
         </div>
     </div>
 
-    <div id="scene-end-letters" class="scene hidden">
-        <h1 id="end-title-letters">The Story Ends</h1>
+    <div id="scene-end-table" class="scene hidden">
         <div class="img-cont">
-            <img class="img" src="images/castle-letters.jpg" alt="A pile of letters">
+            <img class="img" src="images/castle-table-book.jpg" alt="A castle window">
         </div>
-        <p class="prompt" id="end-text-letters"></p>
+        <p class="prompt" id="end-text-table"></p>
         <div class="btn-cont">
-            <button class="button" id="restart-btn-letters">Play Again</button>
+            <button class="button" id="restart-btn-table">Play Again</button>
+        </div>
+    </div>
+
+    <div id="scene-end-leave" class="scene hidden">
+        <div class="img-cont">
+            <img class="img" src="images/castle-leave.jpg" alt="A dark forest">
+        </div>
+        <p class="prompt" id="end-text-leave"></p>
+        <div class="btn-cont">
+            <button class="button" id="restart-btn-leave">Play Again</button>
         </div>
     </div>
 

@@ -2,14 +2,15 @@ const scenes = {
 	start: document.getElementById("start-page"),
 	scene1: document.getElementById("scene-1"),
 	castle: document.getElementById("scene-castle"),
-	castleInside: document.getElementById("scene-castle-inside"),
-	castleLibrary: document.getElementById("scene-castle-library"),	
-	castleKitchen: document.getElementById("scene-castle-kitchen"),
+	castleInside: document.getElementById("scene-inside"), 
+	castleLibrary: document.getElementById("scene-library"),
+	castleKitchen: document.getElementById("scene-kitchen"),
 	lighthouse: document.getElementById("scene-lighthouse"),
 	endBook: document.getElementById("scene-end-book"),
 	endChair: document.getElementById("scene-end-chair"),
-	endSoup: document.getElementById("scene-end-soup"),
-	endLetters: document.getElementById("scene-end-letters"),
+	endStove: document.getElementById("scene-end-stove"),  
+	endTable: document.getElementById("scene-end-table"),
+	endLeave: document.getElementById("scene-end-leave")
 };
 
 const startBtn = document.getElementById("start-btn");
@@ -23,32 +24,32 @@ const castleError = document.getElementById("castle-error");
 
 const castleInsideInput = document.getElementById("castleInside-input");
 const castleInsideBtn = document.getElementById("castleInside-btn");
-const castleInsideError = document.getElementById("castleInside-error");
+const castleInsideError = document.getElementById("castleInside-error")
 
 const castleLibraryInput = document.getElementById("castleLibrary-input");
 const castleLibraryBtn = document.getElementById("castleLibrary-btn");
-const castleLibraryError = document.getElementById("castleLibrary-error");
-	
+const castleLibraryError = document.getElementById("castleLibrary-error")
+
 const castleKitchenInput = document.getElementById("castleKitchen-input");
 const castleKitchenBtn = document.getElementById("castleKitchen-btn");
-const castleKitchenError = document.getElementById("castleKitchen-error");
+const castleKitchenError = document.getElementById("castleKitchen-error")
 
 const lighthouseInput = document.getElementById("lighthouse-input");
 const lighthouseBtn = document.getElementById("lighthouse-btn");
 const lighthouseError = document.getElementById("lighthouse-error");
 
-const endTitleBook = document.getElementById("end-title-book");
 const endTextBook = document.getElementById("end-text-book");
-const endTitleChair = document.getElementById("end-title-chair");
 const endTextChair = document.getElementById("end-text-chair");
-const endTitleSoup = document.getElementById("end-title-soup");
-const endTextSoup = document.getElementById("end-text-soup");
-const endTitleLetters = document.getElementById("end-title-letters");
-const endTextLetters = document.getElementById("end-text-letters");
+const endTextStove = document.getElementById("end-text-stove");
+const endTextTable = document.getElementById("end-text-table");
+const endTextLeave = document.getElementById("end-text-leave");
+
 const restartBtnBook = document.getElementById("restart-btn-book");
 const restartBtnChair = document.getElementById("restart-btn-chair");
-const restartBtnSoup = document.getElementById("restart-btn-soup");
-const restartBtnLetters = document.getElementById("restart-btn-letters");
+const restartBtnStove = document.getElementById("restart-btn-stove");
+const restartBtnTable = document.getElementById("restart-btn-table");
+const restartBtnLeave = document.getElementById("restart-btn-leave");
+
 
 const normalize = (value) => value.trim().toLowerCase();
 
@@ -57,33 +58,31 @@ const showScene = (sceneKey) => {
 	scenes[sceneKey].classList.remove("hidden");
 };
 
-//ending scenes
-const showEndingBook = (title, text) => {
-	endTitleBook.textContent = title;
+const showEndingBook = (text) => {
 	endTextBook.textContent = text;
 	showScene("endBook");
 };
 
-const showEndingChair = (title, text) => {
-	endTitleChair.textContent = title;
+const showEndingChair = (text) => {
 	endTextChair.textContent = text;
 	showScene("endChair");
 };
 
-const showEndingSoup = (title, text) => {
-	endTitleSoup.textContent = title;
-	endTextSoup.textContent = text;
-	showScene("endSoup");
+const showEndingStove = (text) => {
+	endTextStove.textContent = text;
+	showScene("endStove");
 };
 
-const showEndingLetters = (title, text) => {
-	endTitleLetters.textContent = title;
-	endTextLetters.textContent = text;
-	showScene("endLetters");
+const showEndingTable = (text) => {
+	endTextTable.textContent = text;
+	showScene("endTable");
 };
 
+const showEndingLeave = (text) => {
+	endTextLeave.textContent = text;
+	showScene("endLeave");
+};
 
-//scene handlers with logic
 const handleScene1 = () => {
 	const choice = normalize(scene1Input.value);
 	scene1Error.textContent = "";
@@ -99,6 +98,7 @@ const handleScene1 = () => {
 			break;
 		default:
 			scene1Error.textContent = "Please type castle or lighthouse.";
+			return "Invalid Text";
 	}
 };
 
@@ -106,39 +106,19 @@ const handleCastle = () => {
 	const choice = normalize(castleInput.value);
 	castleError.textContent = "";
 
-	if (choice === "enter") {
-		showScene("castleInside");
-		castleInsideInput.focus();
-	} else if (choice === "leave") {
-		showEndingBook(
-			"The Safe Retreat",
-			"You turn back and get lost in the forest..."
-		);
-	} else {
-		castleError.textContent = "Please type enter or leave.";
-	}
-};
-
-const handleCastleLibrary = () => {
-	const choice = normalize(castleLibraryInput.value);
-	castleLibraryError.textContent = "";
-
 	switch (choice) {
-		case "book":
-			showEndingBook(
-				"The Ancient Tome",
-				"You find an ancient tome in the library and read about the castle's secrets."
-			);
+		case "enter":
+			showScene("castleInside");  
+			castleInsideInput.focus();  
 			break;
-		case "chair":
-			showEndingChair(
-				"The Comfy Chair",
-				"You sit in the chair and read a book about the castle's history."
+		case "leave":
+			showEndingLeave(
+				"You decide to turn back and get lost in the forest..."
 			);
 			break;
 		default:
-			castleLibraryError.textContent = "Please type book or chair.";
-			return "Invalid input";
+			castleError.textContent = "Please type enter or leave.";
+			return "Invalid Text";
 	}
 };
 
@@ -146,19 +126,37 @@ const handleCastleInside = () => {
 	const choice = normalize(castleInsideInput.value);
 	castleInsideError.textContent = "";
 
-	if (choice === "library") {
-		showScene("castleLibrary");
-		castleLibraryInput.focus();
-		return;
+	switch (choice) {
+		case "library":
+			showScene("castleLibrary");  
+			castleLibraryInput.focus();  
+			break;
+		case "kitchen":
+			showScene("castleKitchen");
+			castleKitchenInput.focus();
+			break;
+		default:
+			castleInsideError.textContent = "Please type library or kitchen.";
+			return "Invalid Text";
 	}
+};
 
-	if (choice === "kitchen") {
-		showScene("castleKitchen");
-		castleKitchenInput.focus();
-		return;
+const handleCastleLibrary = () => {
+	const choice = normalize(castleLibraryInput.value);
+	castleLibraryError.textContent = "";
+
+	if (choice === "book") {
+		showEndingBook(
+			"You open the book and begin reading, losing track of time..."
+		);
+	} else if (choice === "chair") {
+		showEndingChair(
+			"You sit down for a break, slowly you drift off into sleep..."
+		);
+	} else {
+		castleLibraryError.textContent = "Please type book or chair.";
+		return "Invalid Text";
 	}
-
-	castleInsideError.textContent = "Please type library or kitchen.";
 };
 
 const handleCastleKitchen = () => {
@@ -166,44 +164,37 @@ const handleCastleKitchen = () => {
 	castleKitchenError.textContent = "";
 
 	if (choice === "stove") {
-		showEndingSoup(
-			"The Warm Stove",
-			"You find a warm stove in the kitchen and make a bowl of soup."
+		showEndingStove(
+			"You decide to get a taste of the soup for yourself."
 		);
-		return;
-	}
-
-	if (choice === "table") {
-		showEndingLetters(
-			"The Hidden Letters",
-			"You find a pile of old letters in the kitchen and read about the castle's history."
+	} else if (choice === "table") {
+		showEndingTable(
+			"You decide to go take a look"
 		);
-		return;
+	} else {
+		castleLibraryError.textContent = "Please type stove or table.";
+		return "Invalid Text";
 	}
-
-	castleKitchenError.textContent = "Please type stove or table.";
 };
-
 /*
 const handleLighthouse = () => {
 	const choice = normalize(lighthouseInput.value);
 	lighthouseError.textContent = "";
 
-	if (choice === "climb") {
-		showEnding(
-			"The Beacon",
-			"At the top you light the beacon and signal a distant ship that becomes your ride home."
-		);
-	} else if (choice === "inspect") {
-		showEnding(
-			"The Hidden Key",
-			"You discover a rusted key under a loose stone, hinting at mysteries below the cliff."
-		);
-	} else {
-		lighthouseError.textContent = "Please type climb or inspect.";
+	switch (choice) {
+		case "rocks":
+			showScene("lighthouseRocks");  
+			lighthouseRocksInput.focus();  
+			break;
+		case "sand":
+			showScene("lighthouseSand");
+			lighthouseSandInput.focus();
+			break;
+		default:
+			castleInsideError.textContent = "Please type rocks or sand.";
+			return "Invalid Text";
 	}
 };
-
 */
 
 startBtn.addEventListener("click", () => {
@@ -245,6 +236,7 @@ castleKitchenInput.addEventListener("keydown", (event) => {
 		handleCastleKitchen();
 	}
 });
+
 /*
 lighthouseBtn.addEventListener("click", handleLighthouse);
 lighthouseInput.addEventListener("keydown", (event) => {
@@ -253,23 +245,30 @@ lighthouseInput.addEventListener("keydown", (event) => {
 	}
 });
 */
-const resetGame = () => {
+
+const restartGame = () => {
 	scene1Input.value = "";
 	castleInput.value = "";
 	castleInsideInput.value = "";
 	castleLibraryInput.value = "";
-	castleKitchenInput.value = "";
+	castleKitchenInput.value = "";  
 	lighthouseInput.value = "";
 	scene1Error.textContent = "";
 	castleError.textContent = "";
 	castleInsideError.textContent = "";
 	castleLibraryError.textContent = "";
-	castleKitchenError.textContent = "";
+	castleKitchenError.textContent = "";  
 	lighthouseError.textContent = "";
+	endTextBook.textContent = "";
+	endTextChair.textContent = "";
+	endTextStove.textContent = "";
+	endTextTable.textContent = "";
+	endTextLeave.textContent = ""; 
 	showScene("start");
 };
 
-restartBtnBook.addEventListener("click", resetGame);
-restartBtnChair.addEventListener("click", resetGame);
-restartBtnSoup.addEventListener("click", resetGame);
-restartBtnLetters.addEventListener("click", resetGame);
+restartBtnBook.addEventListener("click", restartGame);
+restartBtnChair.addEventListener("click", restartGame);
+restartBtnStove.addEventListener("click", restartGame);
+restartBtnTable.addEventListener("click", restartGame);
+restartBtnLeave.addEventListener("click", restartGame);
