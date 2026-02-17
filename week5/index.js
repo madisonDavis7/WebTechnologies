@@ -302,26 +302,45 @@ lighthouseBeachInput.addEventListener("keydown", (event) => {
 
 
 const restartGame = () => {
-	scene1Input.value = "";
-	castleInput.value = "";
-	castleInsideInput.value = "";
-	castleLibraryInput.value = "";
-	castleKitchenInput.value = "";  
-	lighthouseInput.value = "";
-	lighthouseBeachInput.value = "";
-	scene1Error.textContent = "";
-	castleError.textContent = "";
-	castleInsideError.textContent = "";
-	castleLibraryError.textContent = "";
-	castleKitchenError.textContent = "";  
-	lighthouseError.textContent = "";
-	endTextBook.textContent = "";
-	endTextChair.textContent = "";
-	endTextStove.textContent = "";
-	endTextTable.textContent = "";
-	endTextRocks.textContent = "";
-	endTextLeave.textContent = ""; 
-	endTextBeach.textContent = "";
+	//clear all text inputs.
+	[
+		scene1Input,
+		castleInput,
+		castleInsideInput,
+		castleLibraryInput,
+		castleKitchenInput,
+		lighthouseInput,
+		lighthouseBeachInput,
+	].forEach((input) => {
+		input.value = "";
+	});
+
+	//clear inline error messages.
+	[
+		scene1Error,
+		castleError,
+		castleInsideError,
+		castleLibraryError,
+		castleKitchenError,
+		lighthouseError,
+		lighthouseBeachError,
+	].forEach((error) => {
+		error.textContent = "";
+	});
+
+	//clear ending text for all outcomes.
+	[
+		endTextBook,
+		endTextChair,
+		endTextStove,
+		endTextTable,
+		endTextRocks,
+		endTextLeave,
+		endTextBeach,
+		endTextLighthouse,
+	].forEach((endText) => {
+		endText.textContent = "";
+	});
 	showScene("start");
 };
 
@@ -333,3 +352,5 @@ restartBtnLeave.addEventListener("click", restartGame);
 restartBtnRocks.addEventListener("click", restartGame);
 restartBtnLighthouse.addEventListener("click", restartGame);
 restartBtnBeach.addEventListener("click", restartGame);
+
+//👻
