@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 5 Adventure Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="start-page" class="scene">
+        <h1>Welcome to the Adventure</h1>
+        <h3>To play this game you will be prompted to make choices. Based on your choices your future
+        options will differ. Enjoy!</h3>
+        <div class="btn-cont">
+            <button class="button" id="start-btn">Begin Adventure</button>
+        </div>
+    </div>
+
+    <div id="scene-1" class="scene hidden">
+        <h1>Crossroads by the Sea</h1>
+        <div class="img-cont">
+            <img class="img" src="../week4/images/choice1-left.jpg" alt="A misty forest path">
+            <img class="img" src="../week4/images/choice1-right.jpg" alt="A rocky coast at dusk">
+        </div>
+        <p class="prompt">Type <strong>castle</strong> or <strong>lighthouse</strong> to choose your path.</p>
+        <div class="input-row">
+            <input type="text" id="scene1-input" placeholder="castle or lighthouse" autocomplete="off">
+            <button class="btn" id="scene1-btn">Submit</button>
+        </div>
+        <p class="error" id="scene1-error" aria-live="polite"></p>
+    </div>
+
+    <div id="scene-castle" class="scene hidden">
+        <h1>The Castle Gate</h1>
+        <div class="img-cont">
+            <img class="img" src="images/castle-gate.jpg" alt="A stone gate">
+            <img class="img" src="images/castle-leave.jpg" alt="A misty forest">
+        </div>
+        <p class="prompt">Type <strong>enter</strong> or <strong>leave</strong>.</p>
+        <div class="input-row">
+            <input type="text" id="castle-input" placeholder="enter or leave" autocomplete="off">
+            <button class="btn" id="castle-btn">Submit</button>
+        </div>
+        <p class="error" id="castle-error" aria-live="polite"></p>
+    </div>
+
+    <div id="scene-castle-inside" class="scene hidden">
+        <h1>The Inner Castle</h1>
+        <div class="img-cont">
+            <img class="img" src="images/castle-library.jpg" alt="An old library">
+            <img class="img" src="images/castle-kitchen.jpg" alt="A dusty kitchen">
+        </div>
+        <p class="prompt">Type <strong>library</strong> or <strong>kitchen</strong>.</p>
+        <div class="input-row">
+            <input type="text" id="castleInside-input" placeholder="library or kitchen" autocomplete="off">
+            <button class="btn" id="castleInside-btn">Submit</button>
+        </div>
+        <p class="error" id="castleInside-error" aria-live="polite"></p>
+    </div>
+
+    <div id="scene-castle-library" class="scene hidden">
+        <h1>The Library</h1>
+        <div class="img-cont">
+            <img class="img" src="images/castle-book.jpg" alt="An old book">
+            <img class="img" src="images/castle-chair.jpg" alt="A comfy chair">
+        </div>
+        <p class="prompt">Type <strong>book</strong> or <strong>chair</strong>.</p>
+        <div class="input-row">
+            <input type="text" id="castleLibrary-input" placeholder="book or chair" autocomplete="off">
+            <button class="btn" id="castleLibrary-btn">Submit</button>
+        </div>
+        <p class="error" id="castleLibrary-error" aria-live="polite"></p>
+    </div>
+
+    <div id="scene-lighthouse" class="scene hidden">
+        <h1>The Lighthouse Cliff</h1>
+        <div class="img-cont">
+            <img class="img" src="images/castle-book.jpg" alt="Waves crashing against cliffs">
+            <img class="img" src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=800&q=80" alt="A lighthouse beam at night">
+        </div>
+        <p class="prompt">Type <strong>climb</strong> or <strong>inspect</strong>.</p>
+        <div class="input-row">
+            <input type="text" id="lighthouse-input" placeholder="climb or inspect" autocomplete="off">
+            <button class="btn" id="lighthouse-btn">Submit</button>
+        </div>
+        <p class="error" id="lighthouse-error" aria-live="polite"></p>
+    </div>
+
+    <div id="scene-end-book" class="scene hidden">
+        <h1 id="end-title-book">The Story Ends</h1>
+        <div class="img-cont">
+            <img class="img" src="images/castle-window.jpg" alt="A serene view from a window">
+        </div>
+        <p class="prompt" id="end-text-book"></p>
+        <div class="btn-cont">
+            <button class="button" id="restart-btn">Play Again</button>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
