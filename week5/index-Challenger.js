@@ -10,8 +10,7 @@ const scenes = {
 	endChair: document.getElementById("scene-end-chair"),
 	endStove: document.getElementById("scene-end-stove"),  
 	endTable: document.getElementById("scene-end-table"),
-	endLeave: document.getElementById("scene-end-leave"),
-	endRocks: document.getElementById("scene-end-rocks")
+	endLeave: document.getElementById("scene-end-leave")
 };
 
 const startBtn = document.getElementById("start-btn");
@@ -44,14 +43,12 @@ const endTextChair = document.getElementById("end-text-chair");
 const endTextStove = document.getElementById("end-text-stove");
 const endTextTable = document.getElementById("end-text-table");
 const endTextLeave = document.getElementById("end-text-leave");
-const endTextRocks = document.getElementById("end-text-rocks");
 
 const restartBtnBook = document.getElementById("restart-btn-book");
 const restartBtnChair = document.getElementById("restart-btn-chair");
 const restartBtnStove = document.getElementById("restart-btn-stove");
 const restartBtnTable = document.getElementById("restart-btn-table");
 const restartBtnLeave = document.getElementById("restart-btn-leave");
-const restartBtnRocks = document.getElementById("restart-btn-rocks");
 
 
 const normalize = (value) => value.trim().toLowerCase();
@@ -84,11 +81,6 @@ const showEndingTable = (text) => {
 const showEndingLeave = (text) => {
 	endTextLeave.textContent = text;
 	showScene("endLeave");
-};
-
-const showEndingRocks = (text) => {
-	endTextRocks.textContent = text;
-	showScene("endRocks");
 };
 
 const handleScene1 = () => {
@@ -180,32 +172,30 @@ const handleCastleKitchen = () => {
 			"You decide to go take a look"
 		);
 	} else {
-		castleKitchenError.textContent = "Please type stove or table.";
+		castleLibraryError.textContent = "Please type stove or table.";
 		return "Invalid Text";
 	}
 };
-
+/*
 const handleLighthouse = () => {
 	const choice = normalize(lighthouseInput.value);
 	lighthouseError.textContent = "";
 
 	switch (choice) {
 		case "rocks":
-			showEndingRocks(
-				"You decide to go explore the rocks and get swept away to sea..."
-			);
+			showScene("lighthouseRocks");  
+			lighthouseRocksInput.focus();  
 			break;
 		case "sand":
-			showEndingRocks(
-				"You walk along the sand until the tide pulls you into a calm drift."
-			);
+			showScene("lighthouseSand");
+			lighthouseSandInput.focus();
 			break;
 		default:
-			lighthouseError.textContent = "Please type rocks or sand.";
+			castleInsideError.textContent = "Please type rocks or sand.";
 			return "Invalid Text";
 	}
 };
-
+*/
 
 startBtn.addEventListener("click", () => {
 	showScene("scene1");
@@ -247,14 +237,14 @@ castleKitchenInput.addEventListener("keydown", (event) => {
 	}
 });
 
-
+/*
 lighthouseBtn.addEventListener("click", handleLighthouse);
 lighthouseInput.addEventListener("keydown", (event) => {
 	if (event.key === "Enter") {
 		handleLighthouse();
 	}
 });
-
+*/
 
 const restartGame = () => {
 	scene1Input.value = "";
@@ -273,7 +263,6 @@ const restartGame = () => {
 	endTextChair.textContent = "";
 	endTextStove.textContent = "";
 	endTextTable.textContent = "";
-	endTextRocks.textContent = "";
 	endTextLeave.textContent = ""; 
 	showScene("start");
 };
@@ -283,4 +272,3 @@ restartBtnChair.addEventListener("click", restartGame);
 restartBtnStove.addEventListener("click", restartGame);
 restartBtnTable.addEventListener("click", restartGame);
 restartBtnLeave.addEventListener("click", restartGame);
-restartBtnRocks.addEventListener("click", restartGame);
