@@ -1,0 +1,72 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(160deg, #fce4ec 0%, #f8bbd0 40%, #e1bee7 100%);
+    font-family: 'Nunito', sans-serif;
+}
+
+h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.2rem;
+    color: #ad1457;
+    letter-spacing: 2px;
+    text-shadow: 2px 3px 0 #f8bbd0, 0 0 24px #f48fb180;
+    margin-bottom: 12px;
+}
+
+#hud {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-bottom: 10px;
+}
+
+#score-display {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    color: #c2185b;
+    background: #fff0f5cc;
+    border: 2.5px solid #f48fb1;
+    border-radius: 20px;
+    padding: 4px 22px;
+    box-shadow: 0 2px 12px #f48fb150;
+}
+
+#hint {
+    font-size: 0.88rem;
+    color: #880e4f;
+    opacity: 0.75;
+    font-weight: 600;
+}
+
+#game-canvas {
+    border-radius: 20px;
+    border: 3px solid #f48fb1;
+    box-shadow: 0 8px 40px #e91e8c30, 0 2px 12px #ad145720;
+    display: block;
+    cursor: none;
+}
+
+#win-banner {
+    display: none;
+    margin-top: 16px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.6rem;
+    color: #ad1457;
+    background: #fff0f5ee;
+    border: 2.5px solid #f48fb1;
+    border-radius: 16px;
+    padding: 10px 36px;
+    box-shadow: 0 4px 20px #f48fb160;
+    animation: pop 0.4s cubic-bezier(.36,1.6,.6,1) both;
+}
+
+@keyframes pop {
+    from { transform: scale(0.7); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+}

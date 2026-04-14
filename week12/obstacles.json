@@ -1,0 +1,9 @@
+[
+  { "id": 1, "x": 100, "y": 80, "width": 80, "height": 80, "color": "#f48fb1", "label": "Wall A" },
+  { "id": 2, "x": 300, "y": 150, "width": 120, "height": 40, "color": "#f06292", "label": "Wall B" },
+  { "id": 3, "x": 480, "y": 60, "width": 50, "height": 140, "color": "#ec407a", "label": "Pillar" },
+  { "id": 4, "x": 150, "y": 300, "width": 160, "height": 40, "color": "#f48fb1", "label": "Platform" },
+  { "id": 5, "x": 380, "y": 320, "width": 40, "height": 120, "color": "#f06292", "label": "Column" },
+  { "id": 6, "x": 560, "y": 260, "width": 100, "height": 60, "color": "#ad1457", "label": "Block" },
+  { "id": 7, "x": 60,  "y": 200, "width": 40, "height": 100, "color": "#e91e8c", "label": "Post" }
+]

@@ -1,276 +1,356 @@
-
-<!-- what I added:
- -new and larger star worth twice the points
- -spikes that hurt the player
- -new platform
- -spacebar to jump
- -changes the gravity of the stars to float more
-
--->
-
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Making your first Phaser 3 Game - Part 10</title>
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
-    <style type="text/css">
-        body {
-            margin: 0;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pink World</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
 
-<script type="text/javascript">
+<h1>✿ Pink World ✿</h1>
 
-var config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 300 },
-            debug: false
+<div id="hud">
+  <div id="score-display">Score: <span id="score-val">0</span></div>
+  <div id="hint">Arrow keys to move &nbsp;·&nbsp; Collect the gems!</div>
+</div>
+
+<canvas id="game-canvas" width="680" height="480"></canvas>
+<div id="win-banner" id="win-banner"> You collected everything! Final score: <span id="final-score"></span></div>
+
+<script>
+
+const OBSTACLES_DATA = [
+  { id:1, x:100, y:80,  width:80,  height:80,  color:"#f48fb1" },
+  { id:2, x:300, y:150, width:120, height:40,  color:"#f06292" },
+  { id:3, x:480, y:60,  width:50,  height:140, color:"#ec407a" },
+  { id:4, x:150, y:300, width:160, height:40,  color:"#f48fb1" },
+  { id:5, x:380, y:320, width:40,  height:120, color:"#f06292" },
+  { id:6, x:560, y:260, width:100, height:60,  color:"#ad1457" },
+  { id:7, x:60,  y:200, width:40,  height:100, color:"#e91e8c" }
+];
+
+const COLLECTIBLES_DATA = [
+  { id:1, x:220, y:100, radius:14, color:"#fff176", points:10 },
+  { id:2, x:440, y:200, radius:14, color:"#ffe082", points:10 },
+  { id:3, x:130, y:380, radius:14, color:"#ffcc02", points:10 },
+  { id:4, x:500, y:370, radius:14, color:"#fff59d", points:20 },
+  { id:5, x:330, y:270, radius:14, color:"#ffd54f", points:20 }
+];
+
+//  CLASS: Obstacle
+class Obstacle {
+  constructor({ id, x, y, width, height, color }) {
+    this.id     = id;
+    this.x      = x;
+    this.y      = y;
+    this.width  = width;
+    this.height = height;
+    this.color  = color;
+  }
+
+  draw(ctx) {
+    ctx.save();
+    ctx.shadowColor = "rgba(173,20,87,0.22)";
+    ctx.shadowBlur  = 10;
+    ctx.shadowOffsetY = 4;
+
+    this._roundRect(ctx, this.x, this.y, this.width, this.height, 10);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+
+    const grd = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.height * 0.5);
+    grd.addColorStop(0,   "rgba(255,255,255,0.28)");
+    grd.addColorStop(1,   "rgba(255,255,255,0)");
+    this._roundRect(ctx, this.x, this.y, this.width, this.height, 10);
+    ctx.fillStyle = grd;
+    ctx.fill();
+
+    this._roundRect(ctx, this.x, this.y, this.width, this.height, 10);
+    ctx.strokeStyle = "rgba(255,255,255,0.55)";
+    ctx.lineWidth   = 2;
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  _roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y,     x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h,     x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y,         x + r, y);
+    ctx.closePath();
+  }
+
+  // AABB rectangle check
+  collidesWith(rx, ry, rw, rh) {
+    return rx < this.x + this.width  &&
+           rx + rw > this.x          &&
+           ry < this.y + this.height &&
+           ry + rh > this.y;
+  }
+}
+
+//  CLASS: Collectible
+class Collectible {
+  constructor({ id, x, y, radius, color, points }) {
+    this.id     = id;
+    this.x      = x;
+    this.y      = y;
+    this.radius = radius;
+    this.color  = color;
+    this.points = points;
+    this.active = true;
+    this._t     = Math.random() * Math.PI * 2; // for bobbing
+  }
+
+  update(dt) {
+    this._t += dt * 2.2;
+  }
+
+  draw(ctx) {
+    if (!this.active) return;
+    const bob = Math.sin(this._t) * 3;
+
+    ctx.save();
+    ctx.shadowColor  = this.color;
+    ctx.shadowBlur   = 18;
+
+    ctx.beginPath();
+    ctx.arc(this.x, this.y + bob, this.radius + 4, 0, Math.PI * 2);
+    ctx.strokeStyle = this.color + "70";
+    ctx.lineWidth   = 3;
+    ctx.stroke();
+
+    ctx.translate(this.x, this.y + bob);
+    ctx.rotate(Math.PI / 4);
+    ctx.beginPath();
+    const s = this.radius * 1.1;
+    ctx.rect(-s / 2, -s / 2, s, s);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.rect(-s / 2, -s / 2, s / 2, s / 2);
+    ctx.fillStyle = "rgba(255,255,255,0.45)";
+    ctx.fill();
+
+    ctx.restore();
+  }
+
+  collidesWith(px, py, pw, ph) {
+    const closestX = Math.max(px, Math.min(this.x, px + pw));
+    const closestY = Math.max(py, Math.min(this.y, py + ph));
+    const dx = this.x - closestX;
+    const dy = this.y - closestY;
+    return (dx * dx + dy * dy) < (this.radius * this.radius);
+  }
+}
+
+//  CLASS: Player
+class Player {
+  constructor(x, y) {
+    this.x      = x;
+    this.y      = y;
+    this.width  = 32;
+    this.height = 32;
+    this.speed  = 180; // px / sec
+    this._t     = 0;
+  }
+
+  update(dt, keys, obstacles, canvasW, canvasH) {
+    this._t += dt * 3;
+    let dx = 0, dy = 0;
+
+    if (keys["ArrowLeft"]  || keys["a"]) dx -= 1;
+    if (keys["ArrowRight"] || keys["d"]) dx += 1;
+    if (keys["ArrowUp"]    || keys["w"]) dy -= 1;
+    if (keys["ArrowDown"]  || keys["s"]) dy += 1;
+
+    if (dx !== 0 && dy !== 0) { dx *= 0.7071; dy *= 0.7071; }
+
+    const step = this.speed * dt;
+
+    this.x += dx * step;
+    this.x  = Math.max(0, Math.min(canvasW - this.width, this.x));
+    for (const obs of obstacles) {
+      if (obs.collidesWith(this.x, this.y, this.width, this.height)) {
+        if (dx > 0) this.x = obs.x - this.width;
+        if (dx < 0) this.x = obs.x + obs.width;
+      }
+    }
+
+    this.y += dy * step;
+    this.y  = Math.max(0, Math.min(canvasH - this.height, this.y));
+    for (const obs of obstacles) {
+      if (obs.collidesWith(this.x, this.y, this.width, this.height)) {
+        if (dy > 0) this.y = obs.y - this.height;
+        if (dy < 0) this.y = obs.y + obs.height;
+      }
+    }
+  }
+
+  draw(ctx) {
+    const cx = this.x + this.width  / 2;
+    const cy = this.y + this.height / 2;
+    const pulse = 1 + Math.sin(this._t) * 0.06;
+
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(pulse, pulse);
+
+    ctx.shadowColor  = "#e91e8c80";
+    ctx.shadowBlur   = 16;
+    ctx.shadowOffsetY = 4;
+
+    ctx.beginPath();
+    ctx.arc(0, 0, this.width / 2, 0, Math.PI * 2);
+    const grad = ctx.createRadialGradient(-4, -6, 2, 0, 0, this.width / 2);
+    grad.addColorStop(0,   "#ff80ab");
+    grad.addColorStop(0.6, "#e91e8c");
+    grad.addColorStop(1,   "#880e4f");
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    ctx.shadowBlur = 0;
+
+    // White highlight
+    ctx.beginPath();
+    ctx.arc(-5, -8, 3, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255,255,255,0.4)";
+    ctx.fill();
+
+    ctx.restore();
+  }
+}
+
+// ─────────────────────────────────────────────
+//  PARTICLE SYSTEM  (collect burst)
+// ─────────────────────────────────────────────
+class Particle {
+  constructor(x, y, color) {
+    this.x  = x;  this.y  = y;
+    this.vx = (Math.random() - 0.5) * 180;
+    this.vy = (Math.random() - 0.5) * 180 - 60;
+    this.life = 1;
+    this.color = color;
+    this.r = 3 + Math.random() * 4;
+  }
+  update(dt) { this.x += this.vx * dt; this.y += this.vy * dt; this.vy += 180 * dt; this.life -= dt * 2.2; }
+  draw(ctx) {
+    if (this.life <= 0) return;
+    ctx.globalAlpha = Math.max(0, this.life);
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+
+// ─────────────────────────────────────────────
+//  GAME SETUP
+// ─────────────────────────────────────────────
+const canvas  = document.getElementById("game-canvas");
+const ctx     = canvas.getContext("2d");
+const scoreEl = document.getElementById("score-val");
+const winBanner = document.getElementById("win-banner");
+
+let obstacles    = OBSTACLES_DATA.map(d => new Obstacle(d));
+let collectibles = COLLECTIBLES_DATA.map(d => new Collectible(d));
+let particles    = [];
+let player       = new Player(320, 420);
+let score        = 0;
+let keys         = {};
+let lastTime     = null;
+let gameWon      = false;
+
+window.addEventListener("keydown", e => {
+  keys[e.key] = true;
+  if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.key)) e.preventDefault();
+});
+window.addEventListener("keyup",   e => { keys[e.key] = false; });
+
+// ─────────────────────────────────────────────
+//  BACKGROUND DRAWING
+// ─────────────────────────────────────────────
+function drawBackground() {
+  const sky = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  sky.addColorStop(0,   "#b3e5fc");
+  sky.addColorStop(0.45,"#f8bbd0");
+  sky.addColorStop(1,   "#fce4ec");
+  ctx.fillStyle = sky;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+// ─────────────────────────────────────────────
+//  GAME LOOP
+// ─────────────────────────────────────────────
+function gameLoop(timestamp) {
+  if (!lastTime) lastTime = timestamp;
+  const dt = Math.min((timestamp - lastTime) / 1000, 0.05);
+  lastTime = timestamp;
+
+  // Update
+  if (!gameWon) {
+    player.update(dt, keys, obstacles, canvas.width, canvas.height);
+
+    // Collectible logic
+    for (let i = collectibles.length - 1; i >= 0; i--) {
+      const col = collectibles[i];
+      if (!col.active) continue;
+      col.update(dt);
+
+      if (col.collidesWith(player.x, player.y, player.width, player.height)) {
+        col.active = false;
+        score += col.points;
+        scoreEl.textContent = score;
+
+        // Burst particles
+        for (let p = 0; p < 14; p++) particles.push(new Particle(col.x, col.y, col.color));
+
+        collectibles.splice(i, 1);
+
+        if (collectibles.length === 0) {
+          gameWon = true;
+          winBanner.style.display = "block";
+          document.getElementById("final-score").textContent = score;
         }
-    },
-    scene: {
-        preload: preload,
-        create: create,
-        update: update
+      }
     }
-};
+  }
 
-var player;
-var stars;
-var bigStar;
-var bombs;
-var spikes;
-var platforms;
-var cursors;
-var jumpKey;
-var starGravityY = -150;
-var score = 0;
-var gameOver = false;
-var scoreText;
+  // Particles
+  for (let i = particles.length - 1; i >= 0; i--) {
+    particles[i].update(dt);
+    if (particles[i].life <= 0) particles.splice(i, 1);
+  }
 
-var game = new Phaser.Game(config);
+  // Draw
+  drawBackground();
+  obstacles.forEach(o => o.draw(ctx));
+  collectibles.forEach(c => c.draw(ctx));
+  particles.forEach(p => p.draw(ctx));
+  player.draw(ctx);
 
-function preload ()
-{
-    this.load.image('sky', 'assets/sky.png');
-    this.load.image('ground', 'assets/platform.png');
-    this.load.image('star', 'assets/star.png');
-    this.load.image('bomb', 'assets/bomb.png');
-    this.load.spritesheet('dude', 'assets/dude.png',
-        { frameWidth: 32, frameHeight: 48 });
+  // Score on canvas (subtle)
+  ctx.save();
+  ctx.font = "bold 13px 'Nunito', sans-serif";
+  ctx.fillStyle = "rgba(173,20,87,0.35)";
+  ctx.fillText(`♥ ${collectibles.length} gems left`, 10, canvas.height - 12);
+  ctx.restore();
+
+  requestAnimationFrame(gameLoop);
 }
 
-function create ()
-{
-    //  A simple background for our game
-    this.add.image(400, 300, 'sky');
-
-    //  The platforms group contains the ground and the 2 ledges we can jump on
-    platforms = this.physics.add.staticGroup();
-
-    //  Here we create the ground.
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-
-    //  Now let's create some ledges
-    platforms.create(600, 400, 'ground');
-    platforms.create(50, 250, 'ground');
-    platforms.create(750, 220, 'ground');
-    platforms.create(200, 160, 'ground').setScale(0.5, 1).refreshBody();
-
-    // The player and its settings
-    player = this.physics.add.sprite(100, 450, 'dude');
-
-    //  Player physics properties. Give the little guy a slight bounce.
-    player.setBounce(0.2);
-    player.setCollideWorldBounds(true);
-
-    //  Our player animations, turning, walking left and walking right.
-    this.anims.create({
-        key: 'left',
-        frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
-        frameRate: 10,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'turn',
-        frames: [ { key: 'dude', frame: 4 } ],
-        frameRate: 20
-    });
-
-    this.anims.create({
-        key: 'right',
-        frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
-        frameRate: 10,
-        repeat: -1
-    });
-
-    //  Input Events
-    cursors = this.input.keyboard.createCursorKeys();
-    jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
-    stars = this.physics.add.group({
-        key: 'star',
-        repeat: 11,
-        setXY: { x: 12, y: 0, stepX: 70 }
-    });
-
-    stars.children.iterate(function (child) {
-
-        //  Give each star a slightly different bounce
-        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-        child.setTint(0xff8fcf);
-        child.body.setGravityY(starGravityY);
-
-    });
-
-    bigStar = this.physics.add.sprite(350, 280, 'star');
-    bigStar.setScale(2);
-    bigStar.setTint(0xff2d95);
-    bigStar.setBounceY(0.6);
-    bigStar.body.setGravityY(starGravityY);
-
-    bombs = this.physics.add.group();
-
-    var spikeGraphic = this.make.graphics({ x: 0, y: 0, add: false });
-    spikeGraphic.fillStyle(0x880000, 1);
-    spikeGraphic.fillTriangle(0, 24, 12, 0, 24, 24);
-    spikeGraphic.generateTexture('spike', 24, 24);
-    spikeGraphic.destroy();
-
-    spikes = this.physics.add.staticGroup();
-
-    spikes.create(250, 536, 'spike').setOrigin(0.5, 1).refreshBody();
-    spikes.create(430, 536, 'spike').setOrigin(0.5, 1).refreshBody();
-    spikes.create(610, 536, 'spike').setOrigin(0.5, 1).refreshBody();
-    spikes.create(600, 384, 'spike').setOrigin(0.5, 1).refreshBody();
-    spikes.create(750, 204, 'spike').setOrigin(0.5, 1).refreshBody();
-    spikes.create(170, 144, 'spike').setOrigin(0.5, 1).refreshBody();
-    spikes.create(230, 144, 'spike').setOrigin(0.5, 1).refreshBody();
-
-    //  The score
-    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-
-    //  Collide the player and the stars with the platforms
-    this.physics.add.collider(player, platforms);
-    this.physics.add.collider(stars, platforms);
-    this.physics.add.collider(bigStar, platforms);
-    this.physics.add.collider(bombs, platforms);
-    this.physics.add.collider(spikes, platforms);
-
-    //  Checks to see if the player overlaps with any of the stars if he does call the collectStar function
-    this.physics.add.overlap(player, stars, collectStar, null, this);
-    this.physics.add.overlap(player, bigStar, collectBigStar, null, this);
-
-    this.physics.add.collider(player, bombs, hitBomb, null, this);
-    this.physics.add.collider(player, spikes, hitSpike, null, this);
-}
-
-function update ()
-{
-    if (gameOver)
-    {
-        return;
-    }
-
-    if (cursors.left.isDown)
-    {
-        player.setVelocityX(-160);
-
-        player.anims.play('left', true);
-    }
-    else if (cursors.right.isDown)
-    {
-        player.setVelocityX(160);
-
-        player.anims.play('right', true);
-    }
-    else
-    {
-        player.setVelocityX(0);
-
-        player.anims.play('turn');
-    }
-
-    if (jumpKey.isDown && player.body.touching.down)
-    {
-        player.setVelocityY(-330);
-    }
-}
-
-function collectStar (player, star)
-{
-    star.disableBody(true, true);
-
-    //  Add and update the score
-    score += 10;
-    scoreText.setText('Score: ' + score);
-
-    if (stars.countActive(true) === 0)
-    {
-        //  A new batch of stars to collect
-        stars.children.iterate(function (child) {
-
-            child.enableBody(true, child.x, 0, true, true);
-            child.body.setGravityY(starGravityY);
-
-        });
-
-        var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
-        var bomb = bombs.create(x, 16, 'bomb');
-        bomb.setBounce(1);
-        bomb.setCollideWorldBounds(true);
-        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-        bomb.allowGravity = false;
-
-    }
-}
-
-function collectBigStar (player, star)
-{
-    star.disableBody(true, true);
-
-    score += 20;
-    scoreText.setText('Score: ' + score);
-}
-
-function hitBomb (player, bomb)
-{
-    this.physics.pause();
-
-    player.setTint(0xff0000);
-
-    player.anims.play('turn');
-
-    gameOver = true;
-}
-
-function hitSpike (player, spike)
-{
-    player.setTint(0xff0000);
-    player.setVelocity(0);
-    player.setPosition(100, 450);
-
-    score = Math.max(0, score - 20);
-    scoreText.setText('Score: ' + score);
-
-    this.time.delayedCall(150, function () {
-        player.clearTint();
-    });
-}
-
+requestAnimationFrame(gameLoop);
 </script>
-
 </body>
 </html>

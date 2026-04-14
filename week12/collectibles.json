@@ -1,0 +1,7 @@
+[
+  { "id": 1, "x": 220, "y": 100, "radius": 14, "color": "#fff176", "points": 10, "label": "Star" },
+  { "id": 2, "x": 440, "y": 200, "radius": 14, "color": "#ffe082", "points": 10, "label": "Gem" },
+  { "id": 3, "x": 130, "y": 380, "radius": 14, "color": "#ffcc02", "points": 10, "label": "Coin" },
+  { "id": 4, "x": 500, "y": 370, "radius": 14, "color": "#fff59d", "points": 20, "label": "Diamond" },
+  { "id": 5, "x": 330, "y": 270, "radius": 14, "color": "#ffd54f", "points": 20, "label": "Crystal" }
+]
