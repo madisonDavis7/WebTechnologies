@@ -1,3 +1,6 @@
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
 // Create scene, camera, renderer
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x000000); // black for space
@@ -8,7 +11,8 @@ const camera = new THREE.PerspectiveCamera(
   0.1, 
   1000
 );
-camera.position.z = 10;
+const baseCameraPosition = new THREE.Vector3(0, 0, 10);
+camera.position.copy(baseCameraPosition);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -110,17 +114,43 @@ scene.add(moonOrbit);
 satellite.position.set(1.8, 0.3, 0);
 moonOrbit.add(satellite);
 
+// Imported model for the assignment (cool robot dude)
+const loader = new GLTFLoader();
+loader.load(
+  'https://threejs.org/examples/models/gltf/RobotExpressive/RobotExpressive.glb',
+  (gltf) => {
+    const model = gltf.scene;
+    model.scale.set(0.7, 0.7, 0.7);
+    //move position on screen
+    model.position.set(0, -5.5, 0);
+    //face direction of camera
+    model.rotation.y = Math.PI / 8;
+    scene.add(model);
+  },
+  undefined,
+  (error) => {
+    console.error('Model failed to load', error);
+  }
+);
+
 //make cube moon go around earth
 function animate() {
-  requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
 
-  planet1.rotation.y += 0.007;
-  planet2.rotation.y += 0.004;
-  moonOrbit.rotation.y += 0.02;
-  satellite.rotation.x += 0.02;
-  satellite.rotation.y += 0.02;
+    //camera movement to look like youre floating in space
+    const t = performance.now() * 0.0005;
+    camera.position.x = baseCameraPosition.x + Math.sin(t * 1.3) * 0.8;
+    camera.position.y = baseCameraPosition.y + Math.sin(t * 0.9) * 0.45;
+    camera.position.z = baseCameraPosition.z + Math.cos(t * 1.1) * 0.35;
+    camera.lookAt(0, 0, 0); //center
 
-  renderer.render(scene, camera);
+    planet1.rotation.y += 0.007;
+    planet2.rotation.y += 0.004;
+    moonOrbit.rotation.y += 0.02;
+    satellite.rotation.x += 0.02;
+    satellite.rotation.y += 0.02;
+
+    renderer.render(scene, camera);
 }
 
 animate();
@@ -132,3 +162,4 @@ window.addEventListener('resize', () => {
 
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
