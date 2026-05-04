@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 // --- Scene, Camera, Renderer ---
 const scene = new THREE.Scene();
@@ -41,7 +42,7 @@ function createPinkTexture() {
   canvas.height = 256;
   const ctx = canvas.getContext('2d');
 
-  ctx.fillStyle = '#e86fa8';
+  ctx.fillStyle = '#f12c88';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // random lighter/darker pink splotches, same technique as week14
@@ -50,7 +51,8 @@ function createPinkTexture() {
     const y = Math.random() * canvas.height;
     const r = 6 + Math.random() * 18;
     ctx.globalAlpha = 0.15 + Math.random() * 0.25;
-    ctx.fillStyle = Math.random() > 0.5 ? '#f5afd4' : '#c2457a';
+    const colors = ['#f5afd4', '#c2457a', '#ff9e40', '#9532f1', '#ec0f0f'];
+    ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI * 2);
     ctx.fill();
@@ -69,47 +71,34 @@ const planet = new THREE.Mesh(
 );
 scene.add(planet);
 
-// --- Plant (foreground, clickable, one-time oxygen refill) ---
+// --- Moon orbiting the planet ---
+const moonOrbit = new THREE.Object3D();
+moonOrbit.position.copy(planet.position);
+
+scene.add(moonOrbit);
+
+const moon = new THREE.Mesh(
+  new THREE.SphereGeometry(0.35, 16, 16),
+  new THREE.MeshStandardMaterial({ color: 0x9b59b6 })
+);
+moon.position.set(2.8, 0.3, 0);
+moonOrbit.add(moon);
+
+// --- Plant model (foreground, clickable, one-time oxygen refill) ---
 const plantGroup = new THREE.Group();
-
-const pot = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.35, 0.28, 0.45, 16),
-  new THREE.MeshStandardMaterial({ color: 0xc1440e })
-);
-plantGroup.add(pot);
-
-const soil = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.34, 0.34, 0.06, 16),
-  new THREE.MeshStandardMaterial({ color: 0x5c3d1e })
-);
-soil.position.y = 0.25;
-plantGroup.add(soil);
-
-const stem = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.04, 0.04, 0.55, 8),
-  new THREE.MeshStandardMaterial({ color: 0x4a7c3a })
-);
-stem.position.y = 0.525;
-plantGroup.add(stem);
-
-const leafMat = new THREE.MeshStandardMaterial({ color: 0x2d8a3e });
-[
-  [0,     0.85,  0,     0.28],
-  [-0.28, 0.7,   0.1,   0.22],
-  [0.28,  0.7,  -0.1,   0.22],
-  [0.08,  1.05, -0.15,  0.20],
-  [-0.08, 1.05,  0.15,  0.20],
-].forEach(([x, y, z, r]) => {
-  const leaf = new THREE.Mesh(new THREE.SphereGeometry(r, 8, 8), leafMat);
-  leaf.position.set(x, y, z);
-  leaf.scale.y = 0.75;
-  plantGroup.add(leaf);
-});
-
-// Position in the foreground, lower-left — feels like it's floating nearby
 plantGroup.position.set(-3.2, -2.8, 5.5);
-plantGroup.scale.setScalar(1.4);
+plantGroup.scale.setScalar(0.5);
 scene.add(plantGroup);
+
+const plantLoader = new GLTFLoader();
+plantLoader.load(
+  'plant.glb',
+  (gltf) => {
+    plantGroup.add(gltf.scene);
+  },
+  undefined,
+  (err) => console.error('Plant failed to load', err)
+);
 
 // --- Shooting Stars ---
 const shootingStars = [];
@@ -164,13 +153,7 @@ renderer.domElement.addEventListener('click', (e) => {
     oxygen = 100;
     refillUsed = true;
 
-    // Gray out the plant so it looks spent
-    plantGroup.traverse(child => {
-      if (child.isMesh) {
-        child.material = new THREE.MeshStandardMaterial({ color: 0x777777 });
-      }
-    });
-
+    scene.remove(plantGroup);
     hint.style.display = 'none';
   }
 });
@@ -219,6 +202,7 @@ function animate() {
 
   // Planet slow rotation
   planet.rotation.y += 0.003;
+  moonOrbit.rotation.y += 0.02;
 
   // Plant gently bobs like it's floating too
   plantGroup.position.y = -2.8 + Math.sin(t * 0.7) * 0.12;
