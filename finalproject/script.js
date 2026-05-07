@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-// --- Scene, Camera, Renderer ---
+//this is an extension of last weeks project cause I liked it
+// Scene, Camera, Renderer
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x000000);
 
@@ -13,7 +14,7 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// --- Stars (same approach as week14) ---
+// Stars same idea as week14
 const starGeo = new THREE.BufferGeometry();
 const starCount = 1000;
 const starPos = new Float32Array(starCount * 3);
@@ -29,13 +30,13 @@ scene.add(new THREE.Points(
   new THREE.PointsMaterial({ color: 0xffffff, size: 0.35, sizeAttenuation: true })
 ));
 
-// --- Lighting ---
+// Lighting stuff
 scene.add(new THREE.AmbientLight(0x334455, 0.8));
 const sunLight = new THREE.DirectionalLight(0xfff5dd, 1.2);
 sunLight.position.set(8, 6, 10);
 scene.add(sunLight);
 
-// --- Pink Planet (center) ---
+// Pink Planet (center) 
 function createPinkTexture() {
   const canvas = document.createElement('canvas');
   canvas.width = 512;
@@ -71,7 +72,7 @@ const planet = new THREE.Mesh(
 );
 scene.add(planet);
 
-// --- Moon orbiting the planet ---
+// Moon orbiting the planet 
 const moonOrbit = new THREE.Object3D();
 moonOrbit.position.copy(planet.position);
 
@@ -84,12 +85,13 @@ const moon = new THREE.Mesh(
 moon.position.set(2.8, 0.3, 0);
 moonOrbit.add(moon);
 
-// --- Plant model (foreground, clickable, one-time oxygen refill) ---
+//plant stuff 
 const plantGroup = new THREE.Group();
 plantGroup.position.set(-3.2, -2.8, 5.5);
 plantGroup.scale.setScalar(0.5);
 scene.add(plantGroup);
 
+//uising downlaoded model/object
 const plantLoader = new GLTFLoader();
 plantLoader.load(
   'plant.glb',
@@ -100,7 +102,7 @@ plantLoader.load(
   (err) => console.error('Plant failed to load', err)
 );
 
-// --- Shooting Stars ---
+// Shooting Stars (kinda messed up ish)
 const shootingStars = [];
 
 function resetStar(star) {
@@ -129,7 +131,7 @@ for (let i = 0; i < 5; i++) {
   shootingStars.push(star);
 }
 
-// --- Oxygen + State ---
+// keeping track of oxygen status and death/not death
 let oxygen = 100;
 let refillUsed = false;
 let isDead = false;
@@ -138,7 +140,7 @@ const oxygenFill  = document.getElementById('oxygen-fill');
 const deathScreen = document.getElementById('death-screen');
 const hint        = document.getElementById('hint');
 
-// --- Plant Click (raycaster) ---
+//  Raycasting for plant interaction
 const raycaster = new THREE.Raycaster();
 const mouse     = new THREE.Vector2();
 
@@ -158,20 +160,7 @@ renderer.domElement.addEventListener('click', (e) => {
   }
 });
 
-// Change cursor when hovering over the plant
-renderer.domElement.addEventListener('mousemove', (e) => {
-  if (isDead || refillUsed) {
-    renderer.domElement.style.cursor = 'default';
-    return;
-  }
-  mouse.x = (e.clientX / window.innerWidth)  *  2 - 1;
-  mouse.y = (e.clientY / window.innerHeight) * -2 + 1;
-  raycaster.setFromCamera(mouse, camera);
-  const over = raycaster.intersectObjects(plantGroup.children, true).length > 0;
-  renderer.domElement.style.cursor = over ? 'pointer' : 'default';
-});
-
-// --- Animate ---
+// animateee
 const clock = new THREE.Clock();
 
 function animate() {
@@ -207,7 +196,7 @@ function animate() {
   // Plant gently bobs like it's floating too
   plantGroup.position.y = -2.8 + Math.sin(t * 0.7) * 0.12;
 
-  // Shooting stars
+  // shooting stars
   shootingStars.forEach(star => {
     if (!star.active) {
       star.delay -= delta;
@@ -226,7 +215,7 @@ function animate() {
 
 animate();
 
-// Responsive resize
+// Responsive resize for coolness
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
